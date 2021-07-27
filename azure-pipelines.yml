@@ -113,14 +113,14 @@ jobs:
           NP_BUILD_DEP: "numpy==1.19.3"
           NIGHTLY_BUILD: "true"
    
-   # Verify that the Windows builds are packaged with the correct dlls
-   # Download a wheel from the nightlies and verify that it works
-   - job: py38_verify_windows
-     #condition: eq(variables['Build.Reason'], 'Schedule')
-     pool:
+  # Verify that the Windows builds are packaged with the correct dlls
+  # Download a wheel from the nightlies and verify that it works
+  - job: py38_verify_windows
+    #condition: eq(variables['Build.Reason'], 'Schedule')
+    pool:
       vmImage: windows-2019
-     container: mcr.microsoft.com/windows/servercore:ltsc2019 # Use custom container without VS 2019
-     steps:
+    container: mcr.microsoft.com/windows/servercore:ltsc2019 # Use custom container without VS 2019
+    steps:
       - task: UsePythonVersion@0
         inputs:
           versionSpec: "3.8"
