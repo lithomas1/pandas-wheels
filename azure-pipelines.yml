@@ -115,7 +115,7 @@ jobs:
    
   # Verify that the Windows builds are packaged with the correct dlls
   # Download a wheel from the nightlies and verify that it works
-  - job: py38_verify_windows
+  - job: py37_verify_windows
     #condition: eq(variables['Build.Reason'], 'Schedule')
     pool:
       vmImage: windows-2019
@@ -123,7 +123,7 @@ jobs:
     steps:
       - task: UsePythonVersion@0
         inputs:
-          versionSpec: "3.8"
+          versionSpec: "3.7"
           architecture: "x64"
         displayName: Set python version
       - script: |
