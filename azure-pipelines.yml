@@ -127,5 +127,6 @@ jobs:
           architecture: "x64"
         displayName: Set python version
       - script: |
+          echo Hello there
           pip install -i https://pypi.anaconda.org/scipy-wheels-nightly/simple pandas
           python -c "import pandas as pd"
