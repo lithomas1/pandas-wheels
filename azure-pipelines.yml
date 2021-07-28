@@ -123,9 +123,10 @@ jobs:
     steps:
       - task: UsePythonVersion@0
         inputs:
-          versionSpec: "3.7"
+          versionSpec: "3.7.1"
           architecture: "x64"
         displayName: Set python version
       - script: |
+          python --version
           pip install pandas
-          python -c "import pandas as pd; print('import successful')"
+          python -c "import pandas as pd; print(pd.__version__)"
