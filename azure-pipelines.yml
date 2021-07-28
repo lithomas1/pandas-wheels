@@ -128,5 +128,5 @@ jobs:
         displayName: Set python version
       - script: |
           python --version
-          pip install pandas
+          python -m pip install pandas
           python -c "import pandas as pd; print(pd.__version__)"
