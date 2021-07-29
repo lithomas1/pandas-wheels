@@ -3,6 +3,11 @@ parameters:
   vmImage: ""
   matrix: []
 
+resources:
+  containers:
+  - container: windows-container
+    image: mcr.microsoft.com/windows/servercore:ltsc2019
+
 jobs:
   - job: ${{ parameters.name }}
     pool:
@@ -70,7 +75,7 @@ jobs:
           pushd pandas
           cp "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Redist/MSVC/14.29.30036/$PYTHON_ARCH/Microsoft.VC142.CRT/msvcp140.dll" pandas/_libs/window
           cp "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Redist/MSVC/14.29.30036/$PYTHON_ARCH/Microsoft.VC142.CRT/concrt140.dll" pandas/_libs/window
-          cp "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Redist/MSVC/14.29.30036/x64/Microsoft.VC142.CRT/vcruntime140_1.dll" pandas/_libs/window
+          #cp "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Redist/MSVC/14.29.30036/x64/Microsoft.VC142.CRT/vcruntime140_1.dll" pandas/_libs/window
           python setup.py build
           python setup.py bdist_wheel
           ls dist
@@ -88,11 +93,29 @@ jobs:
           teardown_test_venv
         displayName: Install wheel and test
         condition: eq(variables['SKIP_BUILD'], 'false')
+        
+      - task: UsePythonVersion@0
+        inputs:
+          versionSpec: $(PYTHON_VERSION)
+          architecture: $(PYTHON_ARCH)
+        displayName: Set python version
+        target: windows-container
+      
+      - script: |
+          python --version
+          python -m pip install pandas
+          python -c "import pandas as pd; print(pd.__version__)"
+        target: windows-container
 
       - bash: echo "##vso[task.prependpath]$CONDA/Scripts"
         displayName: Add conda to PATH
         condition: and(succeeded(), eq(variables['SKIP_BUILD'], 'false'), ne(variables['Build.Reason'], 'PullRequest'))
-
+      
+      - script: |
+          python --version
+          python -m pip install pandas
+          python -c "import pandas as pd; print(pd.__version__)"
+        container: mcr.microsoft.com/windows/servercore:ltsc2019
       - bash: conda install -q -y anaconda-client
         displayName: Install anaconda-client
         condition: and(succeeded(), eq(variables['SKIP_BUILD'], 'false'), ne(variables['Build.Reason'], 'PullRequest'))
