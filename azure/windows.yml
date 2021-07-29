@@ -91,10 +91,10 @@ jobs:
       
       - script: |
           docker pull python:$(PYTHON_VERSION)-windowsservercore
-          docker run -v %cd%:\pandas python:$(PYTHON_VERSION)-windowsservercore \
+          docker run -v %cd%:c:\pandas python:$(PYTHON_VERSION)-windowsservercore \
           cd pandas && \
           python --version && \
-          python -m pip install pandas/dist/pandas-*.whl && \
+          python -m pip install dist/pandas-*.whl && \
           python -c "import pandas as pd; print(pd.__version__)"
 
       - bash: echo "##vso[task.prependpath]$CONDA/Scripts"
