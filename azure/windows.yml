@@ -91,7 +91,7 @@ jobs:
       
       - script: |
           docker pull python:$(PYTHON_VERSION)-windowsservercore
-          docker run -v %cd%:/pandas python:$(PYTHON_VERSION)-windowsservercore \
+          docker run -v %cd%:\pandas python:$(PYTHON_VERSION)-windowsservercore \
           cd pandas && \
           python --version && \
           python -m pip install pandas/dist/pandas-*.whl && \
