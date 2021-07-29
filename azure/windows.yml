@@ -3,11 +3,6 @@ parameters:
   vmImage: ""
   matrix: []
 
-resources:
-  containers:
-  - container: windows-container
-    image: mcr.microsoft.com/windows/servercore:ltsc2019
-
 jobs:
   - job: ${{ parameters.name }}
     pool:
