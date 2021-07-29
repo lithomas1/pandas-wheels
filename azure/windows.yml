@@ -88,19 +88,14 @@ jobs:
           teardown_test_venv
         displayName: Install wheel and test
         condition: eq(variables['SKIP_BUILD'], 'false')
-        
-      - task: UsePythonVersion@0
-        inputs:
-          versionSpec: $(PYTHON_VERSION)
-          architecture: $(PYTHON_ARCH)
-        displayName: Set python version
-        target: windows-container
       
       - script: |
-          python --version
-          python -m pip install pandas/dist/pandas-*.whl
+          docker pull python:$(PYTHON_VERSION)-windowsservercore
+          docker run -v $(pwd):/pandas python:$(PYTHON_VERSION)-windowsservercore \
+          "cd pandas && \
+          python --version && \
+          python -m pip install pandas/dist/pandas-*.whl && \
           python -c "import pandas as pd; print(pd.__version__)"
-        target: windows-container
 
       - bash: echo "##vso[task.prependpath]$CONDA/Scripts"
         displayName: Add conda to PATH
