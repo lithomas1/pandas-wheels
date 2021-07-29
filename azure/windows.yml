@@ -98,7 +98,7 @@ jobs:
       
       - script: |
           python --version
-          python -m pip install pandas
+          python -m pip install pandas/dist/pandas-*.whl
           python -c "import pandas as pd; print(pd.__version__)"
         target: windows-container
 
