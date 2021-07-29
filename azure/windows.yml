@@ -105,12 +105,7 @@ jobs:
       - bash: echo "##vso[task.prependpath]$CONDA/Scripts"
         displayName: Add conda to PATH
         condition: and(succeeded(), eq(variables['SKIP_BUILD'], 'false'), ne(variables['Build.Reason'], 'PullRequest'))
-      
-      - script: |
-          python --version
-          python -m pip install pandas
-          python -c "import pandas as pd; print(pd.__version__)"
-        container: mcr.microsoft.com/windows/servercore:ltsc2019
+
       - bash: conda install -q -y anaconda-client
         displayName: Install anaconda-client
         condition: and(succeeded(), eq(variables['SKIP_BUILD'], 'false'), ne(variables['Build.Reason'], 'PullRequest'))
