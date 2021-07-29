@@ -117,21 +117,3 @@ jobs:
           MB_PYTHON_VERSION: "3.9"
           NP_BUILD_DEP: "numpy==1.19.3"
           NIGHTLY_BUILD: "true"
-   
-  # Verify that the Windows builds are packaged with the correct dlls
-  # Download a wheel from the nightlies and verify that it works
-  - job: py37_verify_windows
-    #condition: eq(variables['Build.Reason'], 'Schedule')
-    pool:
-      vmImage: windows-2019
-    container: mcr.microsoft.com/windows/servercore:ltsc2019 # Use custom container without VS 2019
-    steps:
-      - task: UsePythonVersion@0
-        inputs:
-          versionSpec: "3.7"
-          architecture: "x64"
-        displayName: Set python version
-      - script: |
-          python --version
-          python -m pip install pandas
-          python -c "import pandas as pd; print(pd.__version__)"
