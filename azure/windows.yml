@@ -93,6 +93,8 @@ jobs:
           docker pull python:$(PYTHON_VERSION)-windowsservercore
           docker run -v %cd%:c:\pandas python:$(PYTHON_VERSION)-windowsservercore ^
           python --version && ^
+          dir ^
+          dir .. ^
           python -m pip install dist/pandas-*.whl && ^
           python -c "import pandas as pd; print(pd.__version__)"
 
