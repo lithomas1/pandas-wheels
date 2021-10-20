@@ -70,7 +70,6 @@ jobs:
           pushd pandas
           cp "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Redist/MSVC/14.29.30133/$PYTHON_ARCH/Microsoft.VC142.CRT/msvcp140.dll" pandas/_libs/window
           cp "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Redist/MSVC/14.29.30133/$PYTHON_ARCH/Microsoft.VC142.CRT/concrt140.dll" pandas/_libs/window
-          #cp "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Redist/MSVC/14.29.30133/x64/Microsoft.VC142.CRT/vcruntime140_1.dll" pandas/_libs/window
           python setup.py build
           python setup.py bdist_wheel
           ls dist
@@ -92,8 +91,7 @@ jobs:
       - script: |
           docker pull python:$(PYTHON_VERSION)-windowsservercore
           cd pandas
-          docker run -v %cd%:c:\pandas python:$(PYTHON_VERSION)-windowsservercore python --version && pip install --find-links=pandas pandas && python -c "import pandas as pd; print(pd.__version__)"
-
+          docker run -v %cd%:c:\pandas python:$(PYTHON_VERSION)-windowsservercore ../create_windows_dlls.sh
       - bash: echo "##vso[task.prependpath]$CONDA/Scripts"
         displayName: Add conda to PATH
         condition: and(succeeded(), eq(variables['SKIP_BUILD'], 'false'), ne(variables['Build.Reason'], 'PullRequest'))
