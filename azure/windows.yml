@@ -90,8 +90,7 @@ jobs:
       
       - script: |
           docker pull python:$(PYTHON_VERSION)-windowsservercore
-          cd pandas
-          docker run -v %cd%:c:\pandas python:$(PYTHON_VERSION)-windowsservercore ../create_windows_dlls.sh
+          docker run -v %cd%:c:\pandas python:$(PYTHON_VERSION)-windowsservercore create_windows_dlls.sh
       - bash: echo "##vso[task.prependpath]$CONDA/Scripts"
         displayName: Add conda to PATH
         condition: and(succeeded(), eq(variables['SKIP_BUILD'], 'false'), ne(variables['Build.Reason'], 'PullRequest'))
